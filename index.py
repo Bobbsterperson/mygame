@@ -1,9 +1,13 @@
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
-from fastapi import FastAPI, HTTPException, File, UploadFile
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 import os
 from fastapi.staticfiles import StaticFiles
+
+
+
+
 
 
 
@@ -52,8 +56,6 @@ async def process_left():
         app.mount("/images2", StaticFiles(directory=IMAGES_FOLDER), name="images2")
     print("Left button clicked!")
     return JSONResponse(content={"message": "Left button clicked successfully"})
-
-
 
 
 
