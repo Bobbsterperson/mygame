@@ -33,14 +33,9 @@ async def process_walk():
     # Ensure there are images in the folder
     if not image_filenames:
         raise HTTPException(status_code=500, detail="No images found")
-    
-    # Get the filename of the current image
     current_image_filename = image_filenames[current_image_index]
-
-    # Increment the image index, cycling back to the start if necessary
     current_image_index = (current_image_index + 1) % len(image_filenames)
-    print("walk")
-    # Return the filename of the current image as a response
+  
     return JSONResponse(content={"current_image_filename": current_image_filename})
 
 @app.post("/process_right")

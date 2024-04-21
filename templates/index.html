@@ -5,6 +5,11 @@
       .screen_grid {
         display: grid;
         grid-template-columns: 3fr 1fr;
+        background-color: rgb(85, 61, 150);
+      }
+      .stats_bars {
+        display: grid;
+        grid-template-rows: 1fr 1fr 1fr 2fr 3fr 7fr;
       }
       .mid_buttons {
         display: grid;
@@ -34,17 +39,36 @@
         text-align: center;
         border: 4px solid #d2c3dd;
       }
+
+      .health-bar {
+        width: 100%; 
+        height: 30px; 
+        background-color: #c52121; 
+      }
+
+      .health-level {
+        height: 100%; 
+        background-color: #4caf50; 
+      }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
 
   <body>
-    <div>
-      <img id="imageDisplay" src="" alt="Image" />
+    <div class="screen_grid">
+      <div>
+        <img id="imageDisplay" src="" alt="Image" />
+      </div>
+      <div class="stats_bars">
+        <div class="health-bar" id="healthBar"> health</div>
+        <div>Piss</div>
+        <div>chromosomes</div>
+        <div></div>
+        <div>entity text</div>
+        <div>text options</div>
+      </div>
     </div>
-    <div>
-      
-    </div>
+
     <div class="screen_grid"></div>
     <div>
       <form class="mid_buttons">
@@ -123,19 +147,22 @@
         });
 
         $("#walkButton").click(function (e) {
-        e.preventDefault();
-        $.ajax({
+          e.preventDefault();
+          $.ajax({
             type: "POST",
             url: "/process_walk",
             success: function (data) {
-                $("#imageDisplay").attr("src", "/images/" + data.current_image_filename);
+              $("#imageDisplay").attr(
+                "src",
+                "/images/" + data.current_image_filename
+              );
             },
+          });
         });
-    });
 
-    $("#walkForm").submit(function (e) {
-        $("#walkButton").click();
-    });
+        $("#walkForm").submit(function (e) {
+          $("#walkButton").click();
+        });
         $("#rightButton").click(function (e) {
           e.preventDefault();
           $.ajax({
