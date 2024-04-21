@@ -1,10 +1,64 @@
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
+from fastapi import FastAPI, HTTPException, File, UploadFile
+from fastapi.responses import JSONResponse
+import os
+from fastapi.staticfiles import StaticFiles
+
 
 app = FastAPI()
-
 templates = Jinja2Templates(directory="templates")
+app.mount("/images", StaticFiles(directory="images"), name="images")
+IMAGES_FOLDER = "images"
+image_filenames = os.listdir(IMAGES_FOLDER)
+current_image_index = 0
+
+
+
+
 
 @app.get("/")
-async def name(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request, "name": "stuff"})
+async def walk_button(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request, "button": ""})
+
+@app.post("/process_left")
+async def process_left():
+    # Add your logic here to handle "left" button action
+    print("Left button clicked!")
+    return JSONResponse(content={"message": "Left button clicked successfully"})
+
+@app.post("/process_walk")
+async def process_walk():
+    global current_image_index
+    # Ensure there are images in the folder
+    if not image_filenames:
+        raise HTTPException(status_code=500, detail="No images found")
+    
+    # Get the filename of the current image
+    current_image_filename = image_filenames[current_image_index]
+
+    # Increment the image index, cycling back to the start if necessary
+    current_image_index = (current_image_index + 1) % len(image_filenames)
+    print("walk")
+    # Return the filename of the current image as a response
+    return JSONResponse(content={"current_image_filename": current_image_filename})
+
+@app.post("/process_right")
+async def process_right():
+    print("right button clicked!")
+    return JSONResponse(content={"message": "right button clicked successfully"})
+
+@app.post("/process_punch")
+async def process_punch():
+    print("punch button clicked!")
+    return JSONResponse(content={"message": "punch button clicked successfully"})
+
+@app.post("/process_togglewalk")
+async def process_togglewalk():
+    print("togglewalk button clicked!")
+    return JSONResponse(content={"message": "togglewalk button clicked successfully"})
+
+@app.post("/process_piss")
+async def process_piss():
+    print("piss button clicked!")
+    return JSONResponse(content={"message": "piss button clicked successfully"})

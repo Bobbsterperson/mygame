@@ -1,12 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title></title>
+  <head>
+    <style>
+      .screen_grid {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+      }
+      .mid_buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 2%;
+        background-color: rgb(85, 61, 150);
+      }
+      .bottom_buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 2%;
+        background-color: rgb(85, 61, 150);
+        padding: 1em;
+      }
+      .hide_button {
+        display: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      .file-input-label {
+        font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+        background-color: #9572cc;
+        color: #d2c3dd;
+        padding: 5%;
+        border-radius: 4px;
+        cursor: pointer;
+        display: inline-block;
+        text-align: center;
+        border: 4px solid #d2c3dd;
+      }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
 
-</head>
-<body>
-    <p>
-        {{ name }}
-    </p>
-</body>
+  <body>
+    <div>
+      <img id="imageDisplay" src="" alt="Image" />
+    </div>
+    <div>
+      
+    </div>
+    <div class="screen_grid"></div>
+    <div>
+      <form class="mid_buttons">
+        <label for="leftButton" class="file-input-label">
+          <input
+            type="button"
+            class="hide_button"
+            id="leftButton"
+            value="Left"
+          />
+          Left
+        </label>
+        <label for="walkButton" class="file-input-label">
+          <input
+            type="button"
+            class="hide_button"
+            id="walkButton"
+            value="Walk"
+          />
+          Walk
+        </label>
+        <label for="rightButton" class="file-input-label">
+          <input
+            type="button"
+            class="hide_button"
+            id="rightButton"
+            value="Right"
+          />
+          Right
+        </label>
+      </form>
+    </div>
+    <div>
+      <form class="bottom_buttons">
+        <label for="punchButton" class="file-input-label">
+          <input
+            type="button"
+            class="hide_button"
+            id="punchButton"
+            value="Punch"
+          />
+          Punch
+        </label>
+        <label for="pissButton" class="file-input-label">
+          <input
+            type="button"
+            class="hide_button"
+            id="pissButton"
+            value="Piss"
+          />
+          Piss
+        </label>
+        <label for="togglewalkButton" class="file-input-label">
+          <input
+            type="button"
+            class="hide_button"
+            id="togglewalkButton"
+            value="ToggleWalk"
+          />
+          Toggle Walk
+        </label>
+      </form>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        $("#leftButton").click(function (e) {
+          e.preventDefault();
+          $.ajax({
+            type: "POST",
+            url: "/process_left",
+            success: function (data) {
+              console.log(data.message);
+            },
+          });
+        });
+
+        $("#walkButton").click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "/process_walk",
+            success: function (data) {
+                $("#imageDisplay").attr("src", "/images/" + data.current_image_filename);
+            },
+        });
+    });
+
+    $("#walkForm").submit(function (e) {
+        $("#walkButton").click();
+    });
+        $("#rightButton").click(function (e) {
+          e.preventDefault();
+          $.ajax({
+            type: "POST",
+            url: "/process_right",
+            success: function (data) {
+              console.log(data.message);
+            },
+          });
+        });
+
+        $("#punchButton").click(function (e) {
+          e.preventDefault();
+          $.ajax({
+            type: "POST",
+            url: "/process_punch",
+            success: function (data) {
+              console.log(data.message);
+            },
+          });
+        });
+
+        $("#pissButton").click(function (e) {
+          e.preventDefault();
+          $.ajax({
+            type: "POST",
+            url: "/process_piss",
+            success: function (data) {
+              console.log(data.message);
+            },
+          });
+        });
+
+        $("#togglewalkButton").click(function (e) {
+          e.preventDefault();
+          $.ajax({
+            type: "POST",
+            url: "/process_togglewalk",
+            success: function (data) {
+              console.log(data.message);
+            },
+          });
+        });
+      });
+    </script>
+  </body>
 </html>
