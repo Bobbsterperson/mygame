@@ -35,6 +35,11 @@ async def process_walk():
     current_image_index = (current_image_index + 1) % len(image_filenames)
     return JSONResponse(content={"initial_image_filename": initial_image_filename, "current_image_filename": current_image_filename})
 
+@app.post("/process_right")
+async def process_punch():
+    print("right button clicked!")
+    return JSONResponse(content={"message": "right button clicked successfully"})
+
 @app.post("/process_punch")
 async def process_punch():
     print("punch button clicked!")
