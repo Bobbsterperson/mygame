@@ -146,23 +146,30 @@
           });
         });
 
-        $("#walkButton").click(function (e) {
-          e.preventDefault();
-          $.ajax({
+        function updateImageSrc(imageFilename) {
+        $("#imageDisplay").attr("src", "/images/" + imageFilename);
+    }
+
+    $("#walkButton").click(function (e) {
+        e.preventDefault();
+        $.ajax({
             type: "POST",
             url: "/process_walk",
             success: function (data) {
-              $("#imageDisplay").attr(
-                "src",
-                "/images/" + data.current_image_filename
-              );
+                updateImageSrc(data.current_image_filename);
             },
-          });
         });
+    });
 
-        $("#walkForm").submit(function (e) {
-          $("#walkButton").click();
-        });
+    $("#walkForm").submit(function (e) {
+        e.preventDefault();
+        $("#walkButton").click();
+    });
+
+    $.post("/process_walk", function (data) {
+        updateImageSrc(data.initial_image_filename);
+    });
+
         $("#rightButton").click(function (e) {
           e.preventDefault();
           $.ajax({
